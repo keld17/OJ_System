@@ -3,25 +3,26 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+#include "utils.h"
+#include "user.h"
+#include "problem.h"
+#include "statistics.h"
+#include "menu.h"
 
-typedef struct {
-    char ID[17];
-    char passWord[17];
-}UserInfo;
 
 
-int login(UserInfo*);                           //김대로
-int showUserInfo(UserInfo*);                    //김대로
-int Menu();                                     //선우철
-void changePassword(UserInfo*);                 //김대로
-void deleteAccount(UserInfo*);                  //김대로
-int showProblemInfo(int problemNum);            //선우철
-void submit(int problemNum, char ID[]);         //이정호
-void grade(int problemNum, char ID[]);          //이정호
-int showUserStatus(int problemNum, char ID[]);  //김재현
-void showTotalStatus(int problemNum);           //김준서
+//int login(UserInfo*);                           //김대로
+//int showUserInfo(UserInfo*);                    //김대로
+//int Menu();                                     //선우철
+//void changePassword(UserInfo*);                 //김대로
+//void deleteAccount(UserInfo*);                  //김대로
+//int showProblemInfo(int problemNum);            //선우철
+//void submit(int problemNum, char ID[]);         //이정호
+//void grade(int problemNum, char ID[]);          //이정호
+//int showUserStatus(int problemNum, char ID[]);  //김재현
+//void showTotalStatus(int problemNum);           //김준서
 int findUser(char[]);                           //김재현
-void calculateAverage();                        //김준서
+//void calculateAverage();                        //김준서
 
 int main() {
     int loginStatus = 0;    //비로그인:0,학생로그인:1,관리자로그인:2
