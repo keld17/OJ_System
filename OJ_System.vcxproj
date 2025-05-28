@@ -123,7 +123,27 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="data\problems\problem1\problem1_solution.c" />
     <ClCompile Include="main.c" />
+    <ClCompile Include="menu.c" />
+    <ClCompile Include="problem.c" />
+    <ClCompile Include="statistics.c" />
+    <ClCompile Include="user.c" />
+    <ClCompile Include="utils.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="menu.h" />
+    <ClInclude Include="problem.h" />
+    <ClInclude Include="statistics.h" />
+    <ClInclude Include="user.h" />
+    <ClInclude Include="utils.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="data\accounts\admin.txt" />
+    <Text Include="data\accounts\student.txt" />
+    <Text Include="data\problems\problem1\problem1.txt" />
+    <Text Include="data\problems\problem1\problem1_score_summary.txt" />
+    <Text Include="data\problems\problem1\problem1_vector.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

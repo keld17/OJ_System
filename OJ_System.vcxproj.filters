@@ -18,5 +18,57 @@
     <ClCompile Include="main.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="user.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="problem.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="statistics.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="menu.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="utils.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="data\problems\problem1\problem1_solution.c">
+      <Filter>리소스 파일</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="user.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="problem.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="statistics.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="menu.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="utils.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="data\accounts\admin.txt">
+      <Filter>리소스 파일</Filter>
+    </Text>
+    <Text Include="data\accounts\student.txt">
+      <Filter>리소스 파일</Filter>
+    </Text>
+    <Text Include="data\problems\problem1\problem1.txt">
+      <Filter>리소스 파일</Filter>
+    </Text>
+    <Text Include="data\problems\problem1\problem1_score_summary.txt">
+      <Filter>리소스 파일</Filter>
+    </Text>
+    <Text Include="data\problems\problem1\problem1_vector.txt">
+      <Filter>리소스 파일</Filter>
+    </Text>
   </ItemGroup>
 </Project>
