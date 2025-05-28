@@ -9,38 +9,23 @@
 #include "statistics.h"
 #include "menu.h"
 
-
-
-//int login(UserInfo*);                           //김대로
-//int showUserInfo(UserInfo*);                    //김대로
-//int Menu();                                     //선우철
-//void changePassword(UserInfo*);                 //김대로
-//void deleteAccount(UserInfo*);                  //김대로
-//int showProblemInfo(int problemNum);            //선우철
-//void submit(int problemNum, char ID[]);         //이정호
-//void grade(int problemNum, char ID[]);          //이정호
-//int showUserStatus(int problemNum, char ID[]);  //김재현
-//void showTotalStatus(int problemNum);           //김준서
-int findUser(char[]);                           //김재현
-//void calculateAverage();                        //김준서
-
 int main() {
-    int loginStatus = 0;    //비로그인:0,학생로그인:1,관리자로그인:2
+    int loginStatus = LOGIN_NONE;    //비로그인:0,학생로그인:1,관리자로그인:2
     UserInfo user;
 
-    while (!loginStatus) {
+    while (loginStatus == LOGIN_NONE) {
         loginStatus = login(&user);//로그인되면 1또는 2 반환, user정보 업데이트
     }
 
 
-    if (loginStatus == 1) {
+    if (loginStatus == LOGIN_STUDENT) {
         int StudentMenuReturn;
         do {
             StudentMenuReturn = Menu(); //UI 보여주기, 입력값 반환
-            if (StudentMenuReturn == 1) {   //로그아웃 (L)
+            if (StudentMenuReturn == MENU_LOGOUT) {   //로그아웃 (L)
                 return main();
             }
-            else if (StudentMenuReturn == 2) {  //내정보보기 ()
+            else if (StudentMenuReturn == MENU_USERINFO) {  //내정보보기 ()
                 int UserInfoInput;
                 do {
                     UserInfoInput = showUserInfo(&user);
@@ -97,25 +82,25 @@ int main() {
                     }
                 } while (ProblemInfoInput != 0);
             }
-            else if (StudentMenuReturn == 0) {
+            else if (StudentMenuReturn == MENU_EXIT) {
                 printf("Turning Off...\n");
             }
             else {
                 printf("Wrong Input!\n");
             }
-        } while (StudentMenuReturn != 0);    //0이면 시스템 종료
+        } while (StudentMenuReturn != MENU_EXIT);    //0이면 시스템 종료
     }
 
 
 
-    else if (loginStatus == 2) {
+    else if (loginStatus == LOGIN_ADMIN) {
         int adminMenuReturn;
         do {
             adminMenuReturn = Menu(); //UI 보여주기, 입력값 반환
-            if (adminMenuReturn == 1) {   //로그아웃
+            if (adminMenuReturn == MENU_LOGOUT) {   //로그아웃
                 return main();
             }
-            else if (adminMenuReturn == 2) {  //내정보보기
+            else if (adminMenuReturn == MENU_USERINFO) {  //내정보보기
                 int UserInfoInput;
                 do {
                     UserInfoInput = showUserInfo(&user);
@@ -144,7 +129,8 @@ int main() {
                 do {
                     printf("검색하고자 하는 이용자의 ID를 입력하세요. 이전 단계로 돌아가시려면 0을 입력하세요\n");
                     printf("ID : ");
-                    gets(searchUser);
+                    fgets(searchUser, sizeof(searchUser), stdin);
+                    searchUser[strcspn(searchUser, "\n")] = 0; // 개행문자 제거
                     if (strcmp(searchUser, "0") == 0) {
                         printf("이전 단계로 돌아갑니다.\n");
                         break;
@@ -171,13 +157,13 @@ int main() {
                 } while (1);
 
             }
-            else if (adminMenuReturn == 0) {
+            else if (adminMenuReturn == MENU_EXIT) {
                 printf("Turning Off...\n");
             }
             else {
                 printf("Wrong Input!\n");
             }
-        } while (adminMenuReturn != 0);    //0이면 시스템 종료
+        } while (adminMenuReturn != MENU_EXIT);    //0이면 시스템 종료
 
     }
 
@@ -191,3 +177,16 @@ int main() {
     return 0;
 
 }
+
+//int login(UserInfo*);                           //김대로
+//int showUserInfo(UserInfo*);                    //김대로
+//int Menu();                                     //선우철
+//void changePassword(UserInfo*);                 //김대로
+//void deleteAccount(UserInfo*);                  //김대로
+//int showProblemInfo(int problemNum);            //선우철
+//void submit(int problemNum, char ID[]);         //이정호
+//void grade(int problemNum, char ID[]);          //이정호
+//int showUserStatus(int problemNum, char ID[]);  //김재현
+//void showTotalStatus(int problemNum);           //김준서
+//int findUser(char[]);                           //김재현
+//void calculateAverage();                        //김준서

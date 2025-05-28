@@ -1,4 +1,5 @@
 #include "problem.h"
+#include "utils.h"
 
 int showProblemInfo(int problemNum) {
     // 문제 정보 보기 구현

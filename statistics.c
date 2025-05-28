@@ -1,4 +1,5 @@
 #include "statistics.h"
+#include "utils.h"
 
 int showUserStatus(int problemNum, char ID[]) {
     // 유저별 상태 구현
