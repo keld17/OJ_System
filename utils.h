@@ -26,13 +26,13 @@ typedef enum {
 } MenuOption;
 
 // 원하는 경로에 폴더 생성 (성공 시 true)
-bool create_folder(const char* path);
+bool create_folder(const char* dir_path, const char* folder_name);
 
 // 원하는 경로에 C 파일 생성 (성공 시 true)
-bool create_c_file(const char* path);
+bool create_c_file(const char* dir_path, const char* file_name);
 
 // 원하는 경로에 텍스트 파일 생성 (성공 시 true)
-bool create_text_file(const char* path);
+bool create_text_file(const char* dir_path, const char* file_name);
 
 // C 코드 컴파일,실행하여 출력값을 result에 저장 (성공 시 true)
 bool compile_and_run_c(const char* c_file_path, char* result, int result_size);

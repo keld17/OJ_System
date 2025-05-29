@@ -7,6 +7,14 @@
 #include <time.h>
 #include <stdlib.h>
 
+#ifdef _WIN32
+#include <direct.h>
+#define PATH_SEPARATOR '\\'
+#else
+#include <unistd.h>
+#define PATH_SEPARATOR '/'
+#endif
+
 // 파일에서 한 줄 읽기
 bool read_line(FILE* fp, char* buffer, int buffer_size) {
     if (fgets(buffer, buffer_size, fp) == NULL)
@@ -60,23 +68,41 @@ bool delete_line(const char* filename, int line_number) {
     return deleted;
 }
 
+// 경로와 이름을 합쳐 전체 경로 생성
+static void make_full_path(char* dest, size_t size, const char* dir, const char* name) {
+    size_t len = strlen(dir);
+    if (len > 0 && (dir[len-1] == '/' || dir[len-1] == '\\')) {
+        snprintf(dest, size, "%s%s", dir, name);
+    } else {
+        snprintf(dest, size, "%s%c%s", dir, PATH_SEPARATOR, name);
+    }
+}
+
 // 폴더 생성 (성공 시 true)
-bool create_folder(const char* path) {
-    // 이미 존재하면 성공 처리
+bool create_folder(const char* dir_path, const char* folder_name) {
+    char full_path[512];
+    make_full_path(full_path, sizeof(full_path), dir_path, folder_name);
+
     struct _stat st = {0};
-    if (_stat(path, &st) == 0 && (st.st_mode & _S_IFDIR)) {
+    if (_stat(full_path, &st) == 0 && (st.st_mode & _S_IFDIR)) {
         return true;
     }
-    // 폴더 생성
-    if (_mkdir(path) == 0) {
+#ifdef _WIN32
+    if (_mkdir(full_path) == 0) {
+#else
+    if (mkdir(full_path, 0755) == 0) {
+#endif
         return true;
     }
     return false;
 }
 
 // C 파일 생성 (성공 시 true)
-bool create_c_file(const char* path) {
-    FILE* fp = fopen(path, "w");
+bool create_c_file(const char* dir_path, const char* file_name) {
+    char full_path[512];
+    make_full_path(full_path, sizeof(full_path), dir_path, file_name);
+
+    FILE* fp = fopen(full_path, "w");
     if (fp == NULL) return false;
     // 기본 C 파일 템플릿 작성 (선택 사항)
     fprintf(fp, "#include <stdio.h>\n\nint main() {\n    // TODO: implement\n    return 0;\n}\n");
@@ -85,8 +111,11 @@ bool create_c_file(const char* path) {
 }
 
 // 텍스트 파일 생성 (성공 시 true)
-bool create_text_file(const char* path) {
-    FILE* fp = fopen(path, "w");
+bool create_text_file(const char* dir_path, const char* file_name) {
+    char full_path[512];
+    make_full_path(full_path, sizeof(full_path), dir_path, file_name);
+
+    FILE* fp = fopen(full_path, "w");
     if (fp == NULL) return false;
     fclose(fp);
     return true;
