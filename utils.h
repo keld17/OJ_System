@@ -24,4 +24,20 @@ typedef enum {
     MENU_LOGOUT = 1,
     MENU_USERINFO = 2,
 } MenuOption;
+
+// 원하는 경로에 폴더 생성 (성공 시 true)
+bool create_folder(const char* path);
+
+// 원하는 경로에 C 파일 생성 (성공 시 true)
+bool create_c_file(const char* path);
+
+// 원하는 경로에 텍스트 파일 생성 (성공 시 true)
+bool create_text_file(const char* path);
+
+// C 코드 컴파일,실행하여 출력값을 result에 저장 (성공 시 true)
+bool compile_and_run_c(const char* c_file_path, char* result, int result_size);
+
+// 현재 시간을 "YYYYMMDD_HHMMSS" 문자열로 반환 (result에 저장, 성공 시 true)
+bool get_current_time(char* result, int result_size);
+
 #endif

@@ -1,6 +1,11 @@
 // utils.c
 #include "utils.h"
 #include <string.h>
+#include <stdio.h>
+#include <stdbool.h>
+#include <sys/stat.h>
+#include <time.h>
+#include <stdlib.h>
 
 // 파일에서 한 줄 읽기
 bool read_line(FILE* fp, char* buffer, int buffer_size) {
@@ -53,4 +58,92 @@ bool delete_line(const char* filename, int line_number) {
     }
 
     return deleted;
+}
+
+// 폴더 생성 (성공 시 true)
+bool create_folder(const char* path) {
+    // 이미 존재하면 성공 처리
+    struct _stat st = {0};
+    if (_stat(path, &st) == 0 && (st.st_mode & _S_IFDIR)) {
+        return true;
+    }
+    // 폴더 생성
+    if (_mkdir(path) == 0) {
+        return true;
+    }
+    return false;
+}
+
+// C 파일 생성 (성공 시 true)
+bool create_c_file(const char* path) {
+    FILE* fp = fopen(path, "w");
+    if (fp == NULL) return false;
+    // 기본 C 파일 템플릿 작성 (선택 사항)
+    fprintf(fp, "#include <stdio.h>\n\nint main() {\n    // TODO: implement\n    return 0;\n}\n");
+    fclose(fp);
+    return true;
+}
+
+// 텍스트 파일 생성 (성공 시 true)
+bool create_text_file(const char* path) {
+    FILE* fp = fopen(path, "w");
+    if (fp == NULL) return false;
+    fclose(fp);
+    return true;
+}
+
+// C 코드 파일을 컴파일하고 실행하여 출력값을 result에 저장 (성공 시 true)
+bool compile_and_run_c(const char* c_file_path, char* result, int result_size) {
+    char exe_path[256];
+    char cmd[512];
+    char output_file[256];
+    FILE* fp;
+    bool success = false;
+
+    // 실행 파일 경로 및 출력 파일 경로 설정
+    snprintf(exe_path, sizeof(exe_path), "temp_exe.exe");
+    snprintf(output_file, sizeof(output_file), "temp_output.txt");
+
+    // 컴파일 명령어 생성 (Windows 기준, gcc 사용)
+    snprintf(cmd, sizeof(cmd), "gcc \"%s\" -o \"%s\" 2> compile_error.txt", c_file_path, exe_path);
+    if (system(cmd) != 0) {
+        // 컴파일 실패
+        FILE* err = fopen("compile_error.txt", "r");
+        if (err) {
+            fread(result, 1, result_size - 1, err);
+            result[result_size - 1] = '\0';
+            fclose(err);
+        } else {
+            strncpy(result, "Compile error (no details)", result_size);
+        }
+        remove("compile_error.txt");
+        return false;
+    }
+    remove("compile_error.txt");
+
+    // 실행 명령어 생성 (출력 리다이렉션)
+    snprintf(cmd, sizeof(cmd), "\"%s\" > \"%s\"", exe_path, output_file);
+    if (system(cmd) == 0) {
+        fp = fopen(output_file, "r");
+        if (fp) {
+            size_t len = fread(result, 1, result_size - 1, fp);
+            result[len] = '\0';
+            fclose(fp);
+            success = true;
+        }
+    }
+    // 임시 파일 정리
+    remove(exe_path);
+    remove(output_file);
+
+    return success;
+}
+
+// 현재 시간을 "YYYYMMDD_HHMMSS" 문자열로 반환 (result에 저장, 성공 시 true)
+bool get_current_time(char* result, int result_size) {
+    time_t t = time(NULL);
+    struct tm* tm_info = localtime(&t);
+    if (!tm_info) return false;
+    strftime(result, result_size, "%Y%m%d_%H%M%S", tm_info);
+    return true;
 }
