@@ -1,16 +1,16 @@
-#ifndef UTILS_H
+ï»¿#ifndef UTILS_H
 #define UTILS_H
 
 #include <stdio.h>
 #include <stdbool.h>
 
-// ÆÄÀÏ¿¡¼­ ÇÑ ÁÙ ÀĞ±â (¼º°ø ½Ã true, ½ÇÆĞ ½Ã false)
+// íŒŒì¼ì—ì„œ í•œ ì¤„ ì½ê¸° (ì„±ê³µ ì‹œ true, ì‹¤íŒ¨ ì‹œ false)
 bool read_line(FILE* fp, char* buffer, int buffer_size);
 
-// ÆÄÀÏ¿¡ ÇÑ ÁÙ ¾²±â (°³Çà Æ÷ÇÔ, ¼º°ø ½Ã true)
+// íŒŒì¼ì— í•œ ì¤„ ì“°ê¸° (ê°œí–‰ í¬í•¨, ì„±ê³µ ì‹œ true)
 bool write_line(FILE* fp, const char* line);
 
-// ÆÄÀÏ¿¡¼­ Æ¯Á¤ ÁÙ(0-based line_number) »èÁ¦ (¼º°ø ½Ã true)
+// íŒŒì¼ì—ì„œ íŠ¹ì • ì¤„(0-based line_number) ì‚­ì œ (ì„±ê³µ ì‹œ true)
 bool delete_line(const char* filename, int line_number);
 
 typedef enum {
@@ -25,19 +25,19 @@ typedef enum {
     MENU_USERINFO = 2,
 } MenuOption;
 
-// ¿øÇÏ´Â °æ·Î¿¡ Æú´õ »ı¼º (¼º°ø ½Ã true)
+// ì›í•˜ëŠ” ê²½ë¡œì— í´ë” ìƒì„± (ì„±ê³µ ì‹œ true)
 bool create_folder(const char* dir_path, const char* folder_name);
 
-// ¿øÇÏ´Â °æ·Î¿¡ C ÆÄÀÏ »ı¼º (¼º°ø ½Ã true)
+// ì›í•˜ëŠ” ê²½ë¡œì— C íŒŒì¼ ìƒì„± (ì„±ê³µ ì‹œ true)
 bool create_c_file(const char* dir_path, const char* file_name);
 
-// ¿øÇÏ´Â °æ·Î¿¡ ÅØ½ºÆ® ÆÄÀÏ »ı¼º (¼º°ø ½Ã true)
+// ì›í•˜ëŠ” ê²½ë¡œì— í…ìŠ¤íŠ¸ íŒŒì¼ ìƒì„± (ì„±ê³µ ì‹œ true)
 bool create_text_file(const char* dir_path, const char* file_name);
 
-// C ÄÚµå ÄÄÆÄÀÏ,½ÇÇàÇÏ¿© Ãâ·Â°ªÀ» result¿¡ ÀúÀå (¼º°ø ½Ã true)
+// C ì½”ë“œ ì»´íŒŒì¼,ì‹¤í–‰í•˜ì—¬ ì¶œë ¥ê°’ì„ resultì— ì €ì¥ (ì„±ê³µ ì‹œ true)
 bool compile_and_run_c(const char* c_file_path, char* result, int result_size);
 
-// ÇöÀç ½Ã°£À» "YYYYMMDD_HHMMSS" ¹®ÀÚ¿­·Î ¹İÈ¯ (result¿¡ ÀúÀå, ¼º°ø ½Ã true)
+// í˜„ì¬ ì‹œê°„ì„ "YYYYMMDD_HHMMSS" ë¬¸ìì—´ë¡œ ë°˜í™˜ (resultì— ì €ì¥, ì„±ê³µ ì‹œ true)
 bool get_current_time(char* result, int result_size);
 
 #endif

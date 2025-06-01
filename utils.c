@@ -1,4 +1,5 @@
-// utils.c
+ï»¿
+#define _CRT_SECURE_NO_WARNINGS
 #include "utils.h"
 #include <string.h>
 #include <stdio.h>
@@ -15,23 +16,23 @@
 #define PATH_SEPARATOR '/'
 #endif
 
-// ÆÄÀÏ¿¡¼­ ÇÑ ÁÙ ÀĞ±â
+// íŒŒì¼ì—ì„œ í•œ ì¤„ ì½ê¸°
 bool read_line(FILE* fp, char* buffer, int buffer_size) {
     if (fgets(buffer, buffer_size, fp) == NULL)
         return false;
-    // °³Çà ¹®ÀÚ Á¦°Å
+    // ê°œí–‰ ë¬¸ì ì œê±°
     buffer[strcspn(buffer, "\r\n")] = '\0';
     return true;
 }
 
-// ÆÄÀÏ¿¡ ÇÑ ÁÙ ¾²±â
+// íŒŒì¼ì— í•œ ì¤„ ì“°ê¸°
 bool write_line(FILE* fp, const char* line) {
     if (fprintf(fp, "%s\n", line) < 0)
         return false;
     return true;
 }
 
-// ÆÄÀÏ¿¡¼­ Æ¯Á¤ ÁÙ »èÁ¦
+// íŒŒì¼ì—ì„œ íŠ¹ì • ì¤„ ì‚­ì œ
 bool delete_line(const char* filename, int line_number) {
     FILE* fp = fopen(filename, "r");
     if (!fp) return false;
@@ -68,7 +69,7 @@ bool delete_line(const char* filename, int line_number) {
     return deleted;
 }
 
-// °æ·Î¿Í ÀÌ¸§À» ÇÕÃÄ ÀüÃ¼ °æ·Î »ı¼º
+// ê²½ë¡œì™€ ì´ë¦„ì„ í•©ì³ ì „ì²´ ê²½ë¡œ ìƒì„±
 static void make_full_path(char* dest, size_t size, const char* dir, const char* name) {
     size_t len = strlen(dir);
     if (len > 0 && (dir[len-1] == '/' || dir[len-1] == '\\')) {
@@ -78,7 +79,7 @@ static void make_full_path(char* dest, size_t size, const char* dir, const char*
     }
 }
 
-// Æú´õ »ı¼º (¼º°ø ½Ã true)
+// í´ë” ìƒì„± (ì„±ê³µ ì‹œ true)
 bool create_folder(const char* dir_path, const char* folder_name) {
     char full_path[512];
     make_full_path(full_path, sizeof(full_path), dir_path, folder_name);
@@ -97,20 +98,20 @@ bool create_folder(const char* dir_path, const char* folder_name) {
     return false;
 }
 
-// C ÆÄÀÏ »ı¼º (¼º°ø ½Ã true)
+// C íŒŒì¼ ìƒì„± (ì„±ê³µ ì‹œ true)
 bool create_c_file(const char* dir_path, const char* file_name) {
     char full_path[512];
     make_full_path(full_path, sizeof(full_path), dir_path, file_name);
 
     FILE* fp = fopen(full_path, "w");
     if (fp == NULL) return false;
-    // ±âº» C ÆÄÀÏ ÅÛÇÃ¸´ ÀÛ¼º (¼±ÅÃ »çÇ×)
+    // ê¸°ë³¸ C íŒŒì¼ í…œí”Œë¦¿ ì‘ì„± (ì„ íƒ ì‚¬í•­)
     fprintf(fp, "#include <stdio.h>\n\nint main() {\n    // TODO: implement\n    return 0;\n}\n");
     fclose(fp);
     return true;
 }
 
-// ÅØ½ºÆ® ÆÄÀÏ »ı¼º (¼º°ø ½Ã true)
+// í…ìŠ¤íŠ¸ íŒŒì¼ ìƒì„± (ì„±ê³µ ì‹œ true)
 bool create_text_file(const char* dir_path, const char* file_name) {
     char full_path[512];
     make_full_path(full_path, sizeof(full_path), dir_path, file_name);
@@ -121,7 +122,7 @@ bool create_text_file(const char* dir_path, const char* file_name) {
     return true;
 }
 
-// C ÄÚµå ÆÄÀÏÀ» ÄÄÆÄÀÏÇÏ°í ½ÇÇàÇÏ¿© Ãâ·Â°ªÀ» result¿¡ ÀúÀå (¼º°ø ½Ã true)
+// C ì½”ë“œ íŒŒì¼ì„ ì»´íŒŒì¼í•˜ê³  ì‹¤í–‰í•˜ì—¬ ì¶œë ¥ê°’ì„ resultì— ì €ì¥ (ì„±ê³µ ì‹œ true)
 bool compile_and_run_c(const char* c_file_path, char* result, int result_size) {
     char exe_path[256];
     char cmd[512];
@@ -129,14 +130,14 @@ bool compile_and_run_c(const char* c_file_path, char* result, int result_size) {
     FILE* fp;
     bool success = false;
 
-    // ½ÇÇà ÆÄÀÏ °æ·Î ¹× Ãâ·Â ÆÄÀÏ °æ·Î ¼³Á¤
+    // ì‹¤í–‰ íŒŒì¼ ê²½ë¡œ ë° ì¶œë ¥ íŒŒì¼ ê²½ë¡œ ì„¤ì •
     snprintf(exe_path, sizeof(exe_path), "temp_exe.exe");
     snprintf(output_file, sizeof(output_file), "temp_output.txt");
 
-    // ÄÄÆÄÀÏ ¸í·É¾î »ı¼º (Windows ±âÁØ, gcc »ç¿ë)
+    // ì»´íŒŒì¼ ëª…ë ¹ì–´ ìƒì„± (Windows ê¸°ì¤€, gcc ì‚¬ìš©)
     snprintf(cmd, sizeof(cmd), "gcc \"%s\" -o \"%s\" 2> compile_error.txt", c_file_path, exe_path);
     if (system(cmd) != 0) {
-        // ÄÄÆÄÀÏ ½ÇÆĞ
+        // ì»´íŒŒì¼ ì‹¤íŒ¨
         FILE* err = fopen("compile_error.txt", "r");
         if (err) {
             fread(result, 1, result_size - 1, err);
@@ -150,7 +151,7 @@ bool compile_and_run_c(const char* c_file_path, char* result, int result_size) {
     }
     remove("compile_error.txt");
 
-    // ½ÇÇà ¸í·É¾î »ı¼º (Ãâ·Â ¸®´ÙÀÌ·º¼Ç)
+    // ì‹¤í–‰ ëª…ë ¹ì–´ ìƒì„± (ì¶œë ¥ ë¦¬ë‹¤ì´ë ‰ì…˜)
     snprintf(cmd, sizeof(cmd), "\"%s\" > \"%s\"", exe_path, output_file);
     if (system(cmd) == 0) {
         fp = fopen(output_file, "r");
@@ -161,14 +162,14 @@ bool compile_and_run_c(const char* c_file_path, char* result, int result_size) {
             success = true;
         }
     }
-    // ÀÓ½Ã ÆÄÀÏ Á¤¸®
+    // ì„ì‹œ íŒŒì¼ ì •ë¦¬
     remove(exe_path);
     remove(output_file);
 
     return success;
 }
 
-// ÇöÀç ½Ã°£À» "YYYYMMDD_HHMMSS" ¹®ÀÚ¿­·Î ¹İÈ¯ (result¿¡ ÀúÀå, ¼º°ø ½Ã true)
+// í˜„ì¬ ì‹œê°„ì„ "YYYYMMDD_HHMMSS" ë¬¸ìì—´ë¡œ ë°˜í™˜ (resultì— ì €ì¥, ì„±ê³µ ì‹œ true)
 bool get_current_time(char* result, int result_size) {
     time_t t = time(NULL);
     struct tm* tm_info = localtime(&t);

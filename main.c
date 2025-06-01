@@ -1,4 +1,4 @@
-#define _CRT_SECURE_NO_WARNINGS
+ï»¿#define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -10,29 +10,29 @@
 #include "menu.h"
 
 int main() {
-    int loginStatus = LOGIN_NONE;    //ºñ·Î±×ÀÎ:0,ÇÐ»ý·Î±×ÀÎ:1,°ü¸®ÀÚ·Î±×ÀÎ:2
+    int loginStatus = LOGIN_NONE;    //ë¹„ë¡œê·¸ì¸:0,í•™ìƒë¡œê·¸ì¸:1,ê´€ë¦¬ìžë¡œê·¸ì¸:2
     UserInfo user;
 
     while (loginStatus == LOGIN_NONE) {
-        loginStatus = login(&user);//·Î±×ÀÎµÇ¸é 1¶Ç´Â 2 ¹ÝÈ¯, userÁ¤º¸ ¾÷µ¥ÀÌÆ®
+        loginStatus = login(&user);//ë¡œê·¸ì¸ë˜ë©´ 1ë˜ëŠ” 2 ë°˜í™˜, userì •ë³´ ì—…ë°ì´íŠ¸
     }
 
 
     if (loginStatus == LOGIN_STUDENT) {
         int StudentMenuReturn;
         do {
-            StudentMenuReturn = Menu(); //UI º¸¿©ÁÖ±â, ÀÔ·Â°ª ¹ÝÈ¯
-            if (StudentMenuReturn == MENU_LOGOUT) {   //·Î±×¾Æ¿ô (L)
+            StudentMenuReturn = Menu(); //UI ë³´ì—¬ì£¼ê¸°, ìž…ë ¥ê°’ ë°˜í™˜
+            if (StudentMenuReturn == MENU_LOGOUT) {   //ë¡œê·¸ì•„ì›ƒ (L)
                 return main();
             }
-            else if (StudentMenuReturn == MENU_USERINFO) {  //³»Á¤º¸º¸±â ()
+            else if (StudentMenuReturn == MENU_USERINFO) {  //ë‚´ì •ë³´ë³´ê¸° ()
                 int UserInfoInput;
                 do {
                     UserInfoInput = showUserInfo(&user);
-                    if (UserInfoInput == 1) {   //ºñ¹Ð¹øÈ£ º¯°æ
+                    if (UserInfoInput == 1) {   //ë¹„ë°€ë²ˆí˜¸ ë³€ê²½
                         changePassword(&user);
                     }
-                    else if (UserInfoInput == 2) {  //°èÁ¤ »èÁ¦
+                    else if (UserInfoInput == 2) {  //ê³„ì • ì‚­ì œ
                         deleteAccount(&user);
                         return main();
                     }
@@ -45,15 +45,15 @@ int main() {
                 } while (UserInfoInput != 0);
 
             }
-            else if (StudentMenuReturn > 10 && StudentMenuReturn < 20) {  //¹®Á¦ ¸ñ·Ï º¸±â
-                int problemNum = StudentMenuReturn - 10;    //¹®Á¦ n¹øÀº 10+nÀÔ·Â
+            else if (StudentMenuReturn > 10 && StudentMenuReturn < 20) {  //ë¬¸ì œ ëª©ë¡ ë³´ê¸°
+                int problemNum = StudentMenuReturn - 10;    //ë¬¸ì œ në²ˆì€ 10+nìž…ë ¥
                 int ProblemInfoInput;
 
                 do {
-                    ProblemInfoInput = showProblemInfo(problemNum); //¹®Á¦¼³¸í ¶ç¿ì±â // Coding or Status ¼±ÅÃ UI ¶ç¿ì°í ÀÔ·Â¹Þ±â
-                    if (ProblemInfoInput == 1) {    //CodingÇÏ±â
-                        submit(problemNum, user.ID);   //ÀÔ·Â¹Þ°í ÀúÀå
-                        grade(problemNum, user.ID);    //Ã¤Á¡ÇÏ°í ÀúÀå
+                    ProblemInfoInput = showProblemInfo(problemNum); //ë¬¸ì œì„¤ëª… ë„ìš°ê¸° // Coding or Status ì„ íƒ UI ë„ìš°ê³  ìž…ë ¥ë°›ê¸°
+                    if (ProblemInfoInput == 1) {    //Codingí•˜ê¸°
+                        submit(problemNum, user.ID);   //ìž…ë ¥ë°›ê³  ì €ìž¥
+                        grade(problemNum, user.ID);    //ì±„ì í•˜ê³  ì €ìž¥
                         showUserStatus(problemNum, user.ID);
                         int userInput = 1;
                         while (userInput) {
@@ -67,7 +67,7 @@ int main() {
                         }
 
                     }
-                    else if (ProblemInfoInput == 2) { //Statusº¸±â
+                    else if (ProblemInfoInput == 2) { //Statusë³´ê¸°
                         showUserStatus(problemNum, user.ID);
                         int userInput = 1;
                         while (userInput) {
@@ -88,7 +88,7 @@ int main() {
             else {
                 printf("Wrong Input!\n");
             }
-        } while (StudentMenuReturn != MENU_EXIT);    //0ÀÌ¸é ½Ã½ºÅÛ Á¾·á
+        } while (StudentMenuReturn != MENU_EXIT);    //0ì´ë©´ ì‹œìŠ¤í…œ ì¢…ë£Œ
     }
 
 
@@ -96,18 +96,18 @@ int main() {
     else if (loginStatus == LOGIN_ADMIN) {
         int adminMenuReturn;
         do {
-            adminMenuReturn = Menu(); //UI º¸¿©ÁÖ±â, ÀÔ·Â°ª ¹ÝÈ¯
-            if (adminMenuReturn == MENU_LOGOUT) {   //·Î±×¾Æ¿ô
+            adminMenuReturn = Menu(); //UI ë³´ì—¬ì£¼ê¸°, ìž…ë ¥ê°’ ë°˜í™˜
+            if (adminMenuReturn == MENU_LOGOUT) {   //ë¡œê·¸ì•„ì›ƒ
                 return main();
             }
-            else if (adminMenuReturn == MENU_USERINFO) {  //³»Á¤º¸º¸±â
+            else if (adminMenuReturn == MENU_USERINFO) {  //ë‚´ì •ë³´ë³´ê¸°
                 int UserInfoInput;
                 do {
                     UserInfoInput = showUserInfo(&user);
-                    if (UserInfoInput == 1) {   //ºñ¹Ð¹øÈ£ º¯°æ
+                    if (UserInfoInput == 1) {   //ë¹„ë°€ë²ˆí˜¸ ë³€ê²½
                         changePassword(&user);
                     }
-                    else if (UserInfoInput == 2) {  //°èÁ¤ »èÁ¦
+                    else if (UserInfoInput == 2) {  //ê³„ì • ì‚­ì œ
                         deleteAccount(&user);
                         return main();
                     }
@@ -121,30 +121,30 @@ int main() {
 
             }
 
-            else if (adminMenuReturn > 10 && adminMenuReturn < 20) {  //¹®Á¦ ¸ñ·Ï º¸±â
-                int problemNum = adminMenuReturn - 10;    //¹®Á¦ n¹øÀº 10+nÀÔ·Â
+            else if (adminMenuReturn > 10 && adminMenuReturn < 20) {  //ë¬¸ì œ ëª©ë¡ ë³´ê¸°
+                int problemNum = adminMenuReturn - 10;    //ë¬¸ì œ në²ˆì€ 10+nìž…ë ¥
                 calculateAverage();
-                showTotalStatus(problemNum);    //ÀüÃ¼ Æò±ÕÁ¡¼ö, À¯Àú´ç Æò±Õ Á¦Ãâ¼ö
+                showTotalStatus(problemNum);    //ì „ì²´ í‰ê· ì ìˆ˜, ìœ ì €ë‹¹ í‰ê·  ì œì¶œìˆ˜
                 char searchUser[17] = { 0, };
                 do {
-                    printf("°Ë»öÇÏ°íÀÚ ÇÏ´Â ÀÌ¿ëÀÚÀÇ ID¸¦ ÀÔ·ÂÇÏ¼¼¿ä. ÀÌÀü ´Ü°è·Î µ¹¾Æ°¡½Ã·Á¸é 0À» ÀÔ·ÂÇÏ¼¼¿ä\n");
+                    printf("ê²€ìƒ‰í•˜ê³ ìž í•˜ëŠ” ì´ìš©ìžì˜ IDë¥¼ ìž…ë ¥í•˜ì„¸ìš”. ì´ì „ ë‹¨ê³„ë¡œ ëŒì•„ê°€ì‹œë ¤ë©´ 0ì„ ìž…ë ¥í•˜ì„¸ìš”\n");
                     printf("ID : ");
                     fgets(searchUser, sizeof(searchUser), stdin);
-                    searchUser[strcspn(searchUser, "\n")] = 0; // °³Çà¹®ÀÚ Á¦°Å
+                    searchUser[strcspn(searchUser, "\n")] = 0; // ê°œí–‰ë¬¸ìž ì œê±°
                     if (strcmp(searchUser, "0") == 0) {
-                        printf("ÀÌÀü ´Ü°è·Î µ¹¾Æ°©´Ï´Ù.\n");
+                        printf("ì´ì „ ë‹¨ê³„ë¡œ ëŒì•„ê°‘ë‹ˆë‹¤.\n");
                         break;
                     }
                     else {
                         if (findUser(searchUser) == 0) {
-                            printf("ÀÌ¿ëÀÚ¸¦ Ã£À» ¼ö ¾ø½À´Ï´Ù.\n");
+                            printf("ì´ìš©ìžë¥¼ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.\n");
                         }
                         else {
                             showUserStatus(problemNum, searchUser);
                             int userInput = 1;
                             while (userInput) {
                                 scanf("%d", &userInput);
-                                getchar();  //¹öÆÛÁö¿ì±â
+                                getchar();  //ë²„í¼ì§€ìš°ê¸°
                                 if (userInput == 0) {
                                     break;
                                 }
@@ -163,7 +163,7 @@ int main() {
             else {
                 printf("Wrong Input!\n");
             }
-        } while (adminMenuReturn != MENU_EXIT);    //0ÀÌ¸é ½Ã½ºÅÛ Á¾·á
+        } while (adminMenuReturn != MENU_EXIT);    //0ì´ë©´ ì‹œìŠ¤í…œ ì¢…ë£Œ
 
     }
 
@@ -177,16 +177,3 @@ int main() {
     return 0;
 
 }
-
-//int login(UserInfo*);                           //±è´ë·Î
-//int showUserInfo(UserInfo*);                    //±è´ë·Î
-//int Menu();                                     //¼±¿ìÃ¶
-//void changePassword(UserInfo*);                 //±è´ë·Î
-//void deleteAccount(UserInfo*);                  //±è´ë·Î
-//int showProblemInfo(int problemNum);            //¼±¿ìÃ¶
-//void submit(int problemNum, char ID[]);         //ÀÌÁ¤È£
-//void grade(int problemNum, char ID[]);          //ÀÌÁ¤È£
-//int showUserStatus(int problemNum, char ID[]);  //±èÀçÇö
-//void showTotalStatus(int problemNum);           //±èÁØ¼­
-//int findUser(char[]);                           //±èÀçÇö
-//void calculateAverage();                        //±èÁØ¼­

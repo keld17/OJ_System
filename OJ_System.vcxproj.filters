@@ -33,9 +33,6 @@
     <ClCompile Include="utils.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="data\problems\problem1\problem1_solution.c">
-      <Filter>리소스 파일</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="user.h">
