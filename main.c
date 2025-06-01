@@ -17,7 +17,6 @@ int main() {
         loginStatus = login(&user);//로그인되면 1또는 2 반환, user정보 업데이트
     }
 
-
     if (loginStatus == LOGIN_STUDENT) {
         int StudentMenuReturn;
         do {
@@ -80,9 +79,6 @@ int main() {
             }
         } while (StudentMenuReturn != MENU_EXIT);    //0이면 시스템 종료
     }
-
-
-
     else if (loginStatus == LOGIN_ADMIN) {
         int adminMenuReturn;
         do {
@@ -110,7 +106,6 @@ int main() {
                 } while (UserInfoInput != 0);
 
             }
-
             else if (adminMenuReturn > 10 && adminMenuReturn < 20) {  //문제 목록 보기
                 int problemNum = adminMenuReturn - 10;    //문제 n번은 10+n입력
                 // 문제 파일 존재 여부 확인 로직 추가
@@ -136,7 +131,7 @@ int main() {
                         break;
                     }
                     else {
-                        if (findUser(searchUser) == 0) {
+                        if (hasSubmissionRecord(problemNum,searchUser) == 0) {
                             printf("이용자를 찾을 수 없습니다.\n");
                         }
                         else {

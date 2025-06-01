@@ -49,7 +49,7 @@ int showUserStatus(int problemNum, char ID[]) {
         snprintf(c_file_path, sizeof(c_file_path), "%s/%s_%s.c", submissions_dir, ID, max_time);
 
         FILE* code_fp = fopen(c_file_path, "r");
-        printf("\n[최고점수(%d) 제출 C코드: %s]\n", max_score, c_file_path);
+        printf("\n최고점수(%d) 제출 C코드:\n", max_score, c_file_path);
         if (code_fp) {
             char code_line[256];
             while (fgets(code_line, sizeof(code_line), code_fp)) {
@@ -67,60 +67,109 @@ int showUserStatus(int problemNum, char ID[]) {
     while (userInput) {
         printf("0을 입력하면 돌아갑니다: ");
         scanf("%d", &userInput);
-        if (userInput == 0) break;
+        if (userInput == 0) { 
+            while (getchar() != '\n' && getchar() != EOF);
+            break;
+        }
         else printf("press 0 to undo?\n");
     }
     return 1;
 }
 
 void showTotalStatus(int problemNum) {
-    char dirPath[128];
-    snprintf(dirPath, sizeof(dirPath), "data/problems/problem%d/", problemNum);
+    char stat_path[256];
+    snprintf(stat_path, sizeof(stat_path),
+        "C:/Users/dlekg/source/repos/OJ_System/data/problems/problem%d/problem%d_statistics.txt",
+        problemNum, problemNum);
 
-    // 학생 목록 파일에서 ID를 읽어옴
-    FILE* userList = fopen("data/accounts/student.txt", "r");
-    if (!userList) {
-        printf("학생 목록 파일을 열 수 없습니다.\n");
+    FILE* fp = fopen(stat_path, "r");
+    if (!fp) {
+        printf("통계 파일을 찾을 수 없습니다: %s\n", stat_path);
         return;
     }
 
-    int totalScore = 0, totalSubmit = 0, userCount = 0;
-    char line[128];
-    printf("\n===== 문제 %d 전체 상태 =====\n", problemNum);
-    while (fgets(line, sizeof(line), userList)) {
-        char userID[17], dummyPW[17];
-        if (sscanf(line, "%16[^/]/%16s", userID, dummyPW) == 2) {
-            char statusPath[256];
-            snprintf(statusPath, sizeof(statusPath), "%s%s_status.txt", dirPath, userID);
-            FILE* status = fopen(statusPath, "r");
-            if (status) {
-                int score = 0, submit = 0;
-                char statusLine[128];
-                while (fgets(statusLine, sizeof(statusLine), status)) {
-                    // 예시: "점수: 80, 제출: 3"
-                    sscanf(statusLine, "점수: %d, 제출: %d", &score, &submit);
-                }
-                printf("%s - 점수: %d, 제출: %d\n", userID, score, submit);
-                totalScore += score;
-                totalSubmit += submit;
-                userCount++;
-                fclose(status);
-            }
-        }
-    }
-    fclose(userList);
-
-    if (userCount > 0) {
-        printf("전체 평균 점수: %.2f\n", (double)totalScore / userCount);
-        printf("유저당 평균 제출수: %.2f\n", (double)totalSubmit / userCount);
+    double avg_max = 0.0, avg_submit = 0.0;
+    int overall_max = 0;
+    if (fscanf(fp, "%lf/%lf/%d", &avg_max, &avg_submit, &overall_max) == 3) {
+        printf("\n===== 문제 %d 통계 =====\n", problemNum);
+        printf("전체 학생 평균 최고점수 : %.2f\n", avg_max);
+        printf("전체 학생 평균 제출횟수 : %.2f\n", avg_submit);
+        printf("전체 최고점수           : %d\n", overall_max);
+        printf("========================\n");
     } else {
-        printf("제출한 학생이 없습니다.\n");
+        printf("통계 파일 형식이 올바르지 않습니다.\n");
     }
-    printf("===========================\n");
+    fclose(fp);
 }
 
 void calculateAverage(int problemNum) {
-    
+    char log_path[256], stat_path[256];
+    snprintf(log_path, sizeof(log_path),
+        "C:/Users/dlekg/source/repos/OJ_System/data/problems/problem%d/problem%d_log.txt",
+        problemNum, problemNum);
+    snprintf(stat_path, sizeof(stat_path),
+        "C:/Users/dlekg/source/repos/OJ_System/data/problems/problem%d/problem%d_statistics.txt",
+        problemNum, problemNum);
+
+    // 학생별 최고점수, 제출횟수 집계
+    typedef struct {
+        char id[17];
+        int max_score;
+        int submit_count;
+    } UserStat;
+    UserStat users[256];
+    int user_cnt = 0;
+    int overall_max = -1;
+
+    FILE* fp = fopen(log_path, "r");
+    if (!fp) return;
+
+    char line[256];
+    while (fgets(line, sizeof(line), fp)) {
+        char log_id[64], log_time[64];
+        int log_score;
+        if (sscanf(line, "%63[^/]/%d/%63[^\n]", log_id, &log_score, log_time) == 3) {
+            // 전체 최고점수 갱신
+            if (log_score > overall_max) overall_max = log_score;
+
+            // 학생별 정보 찾기
+            int found = 0;
+            for (int i = 0; i < user_cnt; ++i) {
+                if (strcmp(users[i].id, log_id) == 0) {
+                    users[i].submit_count++;
+                    if (log_score > users[i].max_score)
+                        users[i].max_score = log_score;
+                    found = 1;
+                    break;
+                }
+            }
+            if (!found && user_cnt < 256) {
+                strcpy(users[user_cnt].id, log_id);
+                users[user_cnt].max_score = log_score;
+                users[user_cnt].submit_count = 1;
+                user_cnt++;
+            }
+        }
+    }
+    fclose(fp);
+
+    // 평균 계산
+    double avg_max = 0, avg_submit = 0;
+    for (int i = 0; i < user_cnt; ++i) {
+        avg_max += users[i].max_score;
+        avg_submit += users[i].submit_count;
+    }
+    if (user_cnt > 0) {
+        avg_max /= user_cnt;
+        avg_submit /= user_cnt;
+    }
+
+    // 파일에 저장
+    FILE* stat_fp = fopen(stat_path, "w");
+    if (stat_fp) {
+        fprintf(stat_fp, "%.2f/%.2f/%d\n", avg_max, avg_submit, overall_max >= 0 ? overall_max : 0);
+        fclose(stat_fp);
+    }
 }
 
 void append_log(int problemNum, const char* ID, int score, const char* submissionTime) {

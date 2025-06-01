@@ -47,8 +47,6 @@ int login(UserInfo* user) {
                     return i;
                 }
             }
-            printf("입력ID: '%s', 파일ID: '%s'\n", inputID, fileID);
-            printf("입력PW: '%s', 파일PW: '%s'\n", inputPW, filePW);
         }
         fclose(fp);
     }
@@ -229,11 +227,29 @@ void deleteAccount(UserInfo* user) {
 }
 
 // 사용자 ID 존재 여부 확인
-int findUser(char userID[]) {
-    // Example implementation: Check if the userID matches a predefined ID
-    const char predefinedID[] = "exampleID";
-    if (strcmp(userID, predefinedID) == 0) {
-        return 1; // User found
+int hasSubmissionRecord(int problemNum, char userID[]) {
+    char log_path[256];
+    snprintf(log_path, sizeof(log_path),
+        "C:/Users/dlekg/source/repos/OJ_System/data/problems/problem%d/problem%d_log.txt",
+        problemNum, problemNum);
+
+    FILE* fp = fopen(log_path, "r");
+    if (!fp) {
+        // 로그 파일이 없으면 해당 사용자가 없다고 간주
+        return 0;
     }
+
+    char line[256];
+    while (fgets(line, sizeof(line), fp)) {
+        char log_id[64], log_time[64];
+        int log_score;
+        if (sscanf(line, "%63[^/]/%d/%63[^\n]", log_id, &log_score, log_time) == 3) {
+            if (strcmp(log_id, userID) == 0) {
+                fclose(fp);
+                return 1; // User found
+            }
+        }
+    }
+    fclose(fp);
     return 0; // User not found
 }

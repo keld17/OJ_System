@@ -10,7 +10,7 @@ int login(UserInfo*);
 int showUserInfo(UserInfo*);
 void changePassword(UserInfo*);
 void deleteAccount(UserInfo*);
-int findUser(char[]);
+int hasSubmissionRecord(int problemNum, char[]);
 
 
 #endif // USER_H

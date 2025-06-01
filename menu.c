@@ -42,7 +42,7 @@ int Menu() {
         return 10 + 8;
     } else if (strcmp(buf, "9") == 0) {
         return 10 + 9;
-    } else if (strcmp(buf, "M") == 0) {
+    } else if (strcmp(buf, "M") == 0 || strcmp(buf, "m") == 0) {
         return MENU_USERINFO;
     } else if (strcmp(buf, "L") == 0 || strcmp(buf, "l") == 0) {
         return MENU_LOGOUT;
