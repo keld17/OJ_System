@@ -12,4 +12,5 @@ void changePassword(UserInfo*);
 void deleteAccount(UserInfo*);
 int findUser(char[]);
 
+
 #endif // USER_H

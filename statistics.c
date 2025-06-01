@@ -4,7 +4,8 @@
 
 int showUserStatus(int problemNum, char ID[]) {
     char filePath[128];
-    snprintf(filePath, sizeof(filePath), "data/problems/problem%d/%s_status.txt", problemNum, ID);
+    snprintf(filePath, sizeof(filePath),
+        "data/problems/problem%d/problem%d_log.txt", problemNum, problemNum);
 
     FILE* fp = fopen(filePath, "r");
     if (!fp) {
@@ -13,12 +14,62 @@ int showUserStatus(int problemNum, char ID[]) {
     }
 
     printf("\n===== %s님의 문제 %d 상태 =====\n", ID, problemNum);
+    printf("%-20s | %-6s | %-20s\n", "아이디", "점수", "제출시간");
+    printf("---------------------+--------+----------------------\n");
     char line[256];
+    int found = 0;
+    int max_score = -1;
+    char max_time[64] = {0};
     while (fgets(line, sizeof(line), fp)) {
-        printf("%s", line);
+        char log_id[64], log_time[64];
+        int log_score;
+        if (sscanf(line, "%63[^/]/%d/%63[^\n]", log_id, &log_score, log_time) == 3) {
+            if (strcmp(log_id, ID) == 0) {
+                printf("%-20s | %-6d | %-20s\n", log_id, log_score, log_time);
+                found = 1;
+                if (log_score > max_score || (log_score == max_score && strcmp(log_time, max_time) > 0)) {
+                    max_score = log_score;
+                    strcpy(max_time, log_time);
+                }
+            }
+        }
     }
     fclose(fp);
+    if (!found) {
+        printf("제출 기록이 없습니다.\n");
+    }
     printf("=============================\n");
+
+    // 최고점수 C코드 파일 출력
+    if (found && max_score >= 0) {
+        char submissions_dir[256];
+        snprintf(submissions_dir, sizeof(submissions_dir),
+            "C:/Users/dlekg/source/repos/OJ_System/data/problems/problem%d/submissions", problemNum);
+        char c_file_path[512];
+        snprintf(c_file_path, sizeof(c_file_path), "%s/%s_%s.c", submissions_dir, ID, max_time);
+
+        FILE* code_fp = fopen(c_file_path, "r");
+        printf("\n[최고점수(%d) 제출 C코드: %s]\n", max_score, c_file_path);
+        if (code_fp) {
+            char code_line[256];
+            while (fgets(code_line, sizeof(code_line), code_fp)) {
+                printf("%s", code_line);
+            }
+            fclose(code_fp);
+        } else {
+            printf("C 코드 파일을 찾을 수 없습니다.\n");
+        }
+        printf("========================================\n");
+    }
+
+    // 0 입력 시까지 반복
+    int userInput = 1;
+    while (userInput) {
+        printf("0을 입력하면 돌아갑니다: ");
+        scanf("%d", &userInput);
+        if (userInput == 0) break;
+        else printf("press 0 to undo?\n");
+    }
     return 1;
 }
 
@@ -68,15 +119,18 @@ void showTotalStatus(int problemNum) {
     printf("===========================\n");
 }
 
-void calculateAverage() {
-    // 모든 문제에 대해 전체 평균 점수와 제출수 계산
-    for (int problemNum = 1; ; ++problemNum) {
-        char dirPath[128];
-        snprintf(dirPath, sizeof(dirPath), "data/problems/problem%d/", problemNum);
-        // 디렉토리 존재 여부 확인
-        FILE* test = fopen(dirPath, "r");
-        if (!test) break;
-        fclose(test);
-        showTotalStatus(problemNum);
-    }
+void calculateAverage(int problemNum) {
+    
+}
+
+void append_log(int problemNum, const char* ID, int score, const char* submissionTime) {
+    char log_path[256];
+    snprintf(log_path, sizeof(log_path),
+        "C:/Users/dlekg/source/repos/OJ_System/data/problems/problem%d/problem%d_log.txt",
+        problemNum, problemNum);
+
+    FILE* fp = fopen(log_path, "a");
+    if (!fp) return;
+    fprintf(fp, "%s/%d/%s\n", ID, score, submissionTime);
+    fclose(fp);
 }

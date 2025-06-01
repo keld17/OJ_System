@@ -62,33 +62,13 @@ int main() {
                 do {
                     ProblemInfoInput = showProblemInfo(problemNum); //문제설명 띄우기 // Coding or Status 선택 UI 띄우고 입력받기
                     if (ProblemInfoInput == 1) {    //Coding하기
-                        submit(problemNum, user.ID);   //입력받고 저장
-                        grade(problemNum, user.ID);    //채점하고 저장
+                        char submissionTime[14];
+                        submit(problemNum, user.ID, submissionTime);   //입력받고 저장
+                        grade(problemNum, user.ID, submissionTime);    //채점하고 저장
                         showUserStatus(problemNum, user.ID);
-                        int userInput = 1;
-                        while (userInput) {
-                            scanf("%d", &userInput);
-                            if (userInput == 0) {
-                                break;
-                            }
-                            else {
-                                printf("press 0 to undo?");
-                            }
-                        }
-
                     }
                     else if (ProblemInfoInput == 2) { //Status보기
                         showUserStatus(problemNum, user.ID);
-                        int userInput = 1;
-                        while (userInput) {
-                            scanf("%d", &userInput);
-                            if (userInput == 0) {
-                                break;
-                            }
-                            else {
-                                printf("press 0 to undo?");
-                            }
-                        }
                     }
                 } while (ProblemInfoInput != 0);
             }
@@ -142,7 +122,8 @@ int main() {
                     continue; // 다음 메뉴로 넘어감
                 }
                 fclose(pf);
-                calculateAverage();
+
+                calculateAverage(problemNum);
                 showTotalStatus(problemNum);    //전체 평균점수, 유저당 평균 제출수
                 char searchUser[17] = { 0, };
                 do {
@@ -160,17 +141,6 @@ int main() {
                         }
                         else {
                             showUserStatus(problemNum, searchUser);
-                            int userInput = 1;
-                            while (userInput) {
-                                scanf("%d", &userInput);
-                                getchar();  //버퍼지우기
-                                if (userInput == 0) {
-                                    break;
-                                }
-                                else {
-                                    printf("press 0 to undo");
-                                }
-                            }
                         }
                     }
                 } while (1);

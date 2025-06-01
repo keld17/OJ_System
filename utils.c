@@ -177,3 +177,4 @@ bool get_current_time(char* result, int result_size) {
     strftime(result, result_size, "%Y%m%d_%H%M%S", tm_info);
     return true;
 }
+

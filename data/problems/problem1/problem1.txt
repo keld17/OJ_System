@@ -1,0 +1,8 @@
+Write a program that reads an integer n and prints the result of multiplying n by 2.
+
+Input Example 1:     Output Example 1:
+0                    0
+
+Input Example 2:     Output Example 2:
+2025                 4050
+

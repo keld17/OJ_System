@@ -4,5 +4,6 @@
 int showUserStatus(int problemNum, char ID[]);
 void showTotalStatus(int problemNum);
 void calculateAverage();
+void append_log(int problemNum, const char* ID, int score, const char* submissionTime);
 
 #endif

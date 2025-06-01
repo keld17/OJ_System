@@ -7,6 +7,7 @@
 // 로그인 구현
 int login(UserInfo* user) {
     const char* files[] = {
+        "",
         "data/accounts/student.txt",
         "data/accounts/admin.txt"
     };
@@ -22,7 +23,7 @@ int login(UserInfo* user) {
         inputPW[strcspn(inputPW, "\n")] = '\0'; // 개행 문자 제거
     }
 
-    for (int i = 0; i < 2; ++i) {
+    for (int i = 1; i < 3; ++i) {
         FILE* fp = fopen(files[i], "r");
         if (fp == NULL) {
             printf("계정 파일을 열 수 없습니다: %s\n", files[i]);
@@ -43,7 +44,7 @@ int login(UserInfo* user) {
                     strncpy(user->passWord, filePW, sizeof(user->passWord));
                     fclose(fp);
                     printf("로그인 성공!\n");
-                    return 1;
+                    return i;
                 }
             }
             printf("입력ID: '%s', 파일ID: '%s'\n", inputID, fileID);
@@ -172,6 +173,7 @@ void deleteAccount(UserInfo* user) {
         while (getchar() != '\n'); // 입력 버퍼 비우기
         return;
     }
+    while (getchar() != '\n'); // 입력 버퍼 비우기
 
     const char* files[] = {
         "data/accounts/student.txt",

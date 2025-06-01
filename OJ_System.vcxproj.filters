@@ -51,21 +51,4 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
-  <ItemGroup>
-    <Text Include="data\accounts\admin.txt">
-      <Filter>리소스 파일</Filter>
-    </Text>
-    <Text Include="data\accounts\student.txt">
-      <Filter>리소스 파일</Filter>
-    </Text>
-    <Text Include="data\problems\problem1\problem1.txt">
-      <Filter>리소스 파일</Filter>
-    </Text>
-    <Text Include="data\problems\problem1\problem1_score_summary.txt">
-      <Filter>리소스 파일</Filter>
-    </Text>
-    <Text Include="data\problems\problem1\problem1_vector.txt">
-      <Filter>리소스 파일</Filter>
-    </Text>
-  </ItemGroup>
 </Project>
