@@ -31,40 +31,54 @@ int Menu() {
     while (getchar() != '\n'); // 입력 버퍼 비우기
 
     if (strcmp(buf, "1") == 0) {
+        clear_screen();
         return 10 + 1;
     } else if (strcmp(buf, "2") == 0) {
+        clear_screen();
         return 10 + 2;
     } else if (strcmp(buf, "3") == 0) {
+        clear_screen();
         return 10 + 3;
     } else if (strcmp(buf, "4") == 0) {
+        clear_screen();
         return 10 + 4;
     } else if (strcmp(buf, "5") == 0) {
+        clear_screen();
         return 10 + 5;
     } else if (strcmp(buf, "6") == 0) {
+        clear_screen();
         return 10 + 6;
     } else if (strcmp(buf, "7") == 0) {
+        clear_screen();
         return 10 + 7;
     } else if (strcmp(buf, "8") == 0) {
+        clear_screen();
         return 10 + 8;
     } else if (strcmp(buf, "9") == 0) {
+        clear_screen();
         return 10 + 9;
     } else if (strcmp(buf, "M") == 0 || strcmp(buf, "m") == 0) {
+        clear_screen();
         return MENU_USERINFO;
     } else if (strcmp(buf, "L") == 0 || strcmp(buf, "l") == 0) {
+        clear_screen();
         return MENU_LOGOUT;
     } else if (strcmp(buf, "0") == 0) {
+        clear_screen();
         return MENU_EXIT;
     } else {
         printf("잘못된 입력입니다.\n");
         return -1;
     }
 }
+
 // 사용자 정보 처리 함수
 void handleUserInfo(UserInfo* user) {
     int UserInfoInput;
     do {
         UserInfoInput = showUserInfo(user);
         if (UserInfoInput == 1) {   // 비밀번호 변경
+            clear_screen();
             changePassword(user);
         }
         else if (UserInfoInput == 2) {  // 계정 삭제
@@ -73,9 +87,11 @@ void handleUserInfo(UserInfo* user) {
             exit(0);
         }
         else if (UserInfoInput == 0) {
+            clear_screen();
             printf("Going back...\n");
         }
         else {
+            clear_screen();
             printf("Wrong Input!\n");
         }
     } while (UserInfoInput != 0);
@@ -93,8 +109,12 @@ void handleStudentProblem(int problemNum, UserInfo* user) {
     fclose(pf);
 
     int ProblemInfoInput;
-    do {
+    while(1) {
         ProblemInfoInput = showProblemInfo(problemNum);
+        if (ProblemInfoInput == 0) {
+            clear_screen();
+            break;
+        }
         if (ProblemInfoInput == 1) {    // Coding하기
             char submissionTime[14];
             submit(problemNum, user->ID, submissionTime);
@@ -102,9 +122,10 @@ void handleStudentProblem(int problemNum, UserInfo* user) {
             showUserStatus(problemNum, user->ID);
         }
         else if (ProblemInfoInput == 2) { // Status보기
+            clear_screen();
             showUserStatus(problemNum, user->ID);
         }
-    } while (ProblemInfoInput != 0);
+    }
 }
 
 // 관리자 문제 처리 함수
@@ -119,20 +140,21 @@ void handleAdminProblem(int problemNum) {
     fclose(pf);
 
     calculateAverage(problemNum);
-    showTotalStatus(problemNum);
-
-    char searchUser[17] = { 0, };
     do {
+        showTotalStatus(problemNum);
+        char searchUser[17] = { 0, };
         printf("검색하고자 하는 이용자의 ID를 입력하세요. 이전 단계로 돌아가시려면 0을 입력하세요\n");
         printf("ID : ");
         fgets(searchUser, sizeof(searchUser), stdin);
         searchUser[strcspn(searchUser, "\n")] = 0;
         if (strcmp(searchUser, "0") == 0) {
+            clear_screen();
             printf("이전 단계로 돌아갑니다.\n");
             break;
         }
         else {
             if (hasSubmissionRecord(problemNum, searchUser) == 0) {
+                clear_screen();
                 printf("이용자를 찾을 수 없습니다.\n");
             }
             else {

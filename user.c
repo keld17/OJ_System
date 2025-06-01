@@ -43,6 +43,7 @@ int login(UserInfo* user) {
                     strncpy(user->ID, fileID, sizeof(user->ID));
                     strncpy(user->passWord, filePW, sizeof(user->passWord));
                     fclose(fp);
+                    clear_screen();
                     printf("로그인 성공!\n");
                     return i;
                 }
@@ -50,6 +51,7 @@ int login(UserInfo* user) {
         }
         fclose(fp);
     }
+    clear_screen();
     printf("로그인 실패: ID 또는 비밀번호가 올바르지 않습니다.\n");
     return 0;
 }
@@ -82,6 +84,7 @@ void changePassword(UserInfo* user) {
             tooLong = 1;
         }
         if (tooLong) {
+            clear_screen();
             printf("오류: 비밀번호는 16자 이하여야 합니다.\n");
             return;
         }
@@ -97,6 +100,7 @@ void changePassword(UserInfo* user) {
             tooLong = 1;
         }
         if (tooLong) {
+            clear_screen();
             printf("오류: 비밀번호는 16자 이하여야 합니다.\n");
             return;
         }
@@ -104,6 +108,7 @@ void changePassword(UserInfo* user) {
         confirmPW[0] = '\0'; // Ensure null-termination in case of input failure
     }
     if (strcmp(newPW, confirmPW) != 0) {
+        clear_screen();
         printf("비밀번호가 일치하지 않습니다.\n");
         return;
     }
@@ -150,6 +155,7 @@ void changePassword(UserInfo* user) {
             remove(files[i]);
             rename("data/accounts/temp.txt", files[i]);
             strncpy(user->passWord, newPW, sizeof(user->passWord));
+            clear_screen();
             printf("비밀번호가 성공적으로 변경되었습니다.\n");
             break;
         } else {

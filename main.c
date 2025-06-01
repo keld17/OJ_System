@@ -10,10 +10,11 @@
 #include "menu.h"
 
 
+
 int main() {
     int loginStatus = LOGIN_NONE;
     UserInfo user;
-
+    clear_screen();
     while (loginStatus == LOGIN_NONE) {
         loginStatus = login(&user);
     }

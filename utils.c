@@ -178,3 +178,8 @@ bool get_current_time(char* result, int result_size) {
     return true;
 }
 
+// 화면을 지우는 함수
+void clear_screen() {
+    system("cls"); // Windows
+}
+

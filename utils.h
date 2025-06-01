@@ -16,6 +16,9 @@ typedef enum {
     MENU_USERINFO = 2,
 } MenuOption;
 
+// 화면을 지우는 함수
+void clear_screen();
+
 // 파일에서 한 줄 읽기 (성공 시 true, 실패 시 false)
 bool read_line(FILE* fp, char* buffer, int buffer_size);
 

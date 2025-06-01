@@ -3,10 +3,10 @@
 #include "utils.h"
 
 int showUserStatus(int problemNum, char ID[]) {
+    clear_screen();
     char filePath[128];
     snprintf(filePath, sizeof(filePath),
         "data/problems/problem%d/problem%d_log.txt", problemNum, problemNum);
-
     FILE* fp = fopen(filePath, "r");
     if (!fp) {
         printf("상태 파일을 찾을 수 없습니다: %s\n", filePath);
@@ -66,12 +66,22 @@ int showUserStatus(int problemNum, char ID[]) {
     int userInput = 1;
     while (userInput) {
         printf("0을 입력하면 돌아갑니다: ");
-        scanf("%d", &userInput);
+        int result = scanf("%d", &userInput);
+        if (result != 1) {
+            // 숫자가 아닌 입력이 들어온 경우
+            printf("숫자를 입력하세요.\n");
+            while (getchar() != '\n'); // 입력 버퍼 비우기
+            userInput = 1; // 루프 유지
+            continue;
+        }
         if (userInput == 0) { 
-            while (getchar() != '\n' && getchar() != EOF);
+            clear_screen();
+            while (getchar() != '\n');
             break;
         }
-        else printf("press 0 to undo?\n");
+        else {
+            printf("press 0 to undo?\n");
+        }
     }
     return 1;
 }

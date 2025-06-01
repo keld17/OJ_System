@@ -177,3 +177,4 @@ void grade(int problemNum, char ID[], char submissionTime[]) {
 
     append_log(problemNum, ID, score, submissionTime);
 }
+
