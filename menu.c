@@ -1,4 +1,10 @@
 ﻿#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "user.h"
+#include "problem.h"
+#include "statistics.h"
 #include "menu.h"
 #include "utils.h"
 
@@ -52,4 +58,136 @@ int Menu() {
         printf("잘못된 입력입니다.\n");
         return -1;
     }
+}
+// 사용자 정보 처리 함수
+void handleUserInfo(UserInfo* user) {
+    int UserInfoInput;
+    do {
+        UserInfoInput = showUserInfo(user);
+        if (UserInfoInput == 1) {   // 비밀번호 변경
+            changePassword(user);
+        }
+        else if (UserInfoInput == 2) {  // 계정 삭제
+            deleteAccount(user);
+            main(); // 계정 삭제 후 재시작
+            exit(0);
+        }
+        else if (UserInfoInput == 0) {
+            printf("Going back...\n");
+        }
+        else {
+            printf("Wrong Input!\n");
+        }
+    } while (UserInfoInput != 0);
+}
+
+// 학생 문제 처리 함수
+void handleStudentProblem(int problemNum, UserInfo* user) {
+    char problemPath[128];
+    snprintf(problemPath, sizeof(problemPath), "data/problems/problem%d/problem%d_vector.txt", problemNum, problemNum);
+    FILE* pf = fopen(problemPath, "r");
+    if (!pf) {
+        printf("문제 %d에 해당하는 파일이 존재하지 않습니다.\n", problemNum);
+        return;
+    }
+    fclose(pf);
+
+    int ProblemInfoInput;
+    do {
+        ProblemInfoInput = showProblemInfo(problemNum);
+        if (ProblemInfoInput == 1) {    // Coding하기
+            char submissionTime[14];
+            submit(problemNum, user->ID, submissionTime);
+            grade(problemNum, user->ID, submissionTime);
+            showUserStatus(problemNum, user->ID);
+        }
+        else if (ProblemInfoInput == 2) { // Status보기
+            showUserStatus(problemNum, user->ID);
+        }
+    } while (ProblemInfoInput != 0);
+}
+
+// 관리자 문제 처리 함수
+void handleAdminProblem(int problemNum) {
+    char problemPath[128];
+    snprintf(problemPath, sizeof(problemPath), "data/problems/problem%d/problem%d_vector.txt", problemNum, problemNum);
+    FILE* pf = fopen(problemPath, "r");
+    if (!pf) {
+        printf("문제 %d에 해당하는 파일이 존재하지 않습니다.\n", problemNum);
+        return;
+    }
+    fclose(pf);
+
+    calculateAverage(problemNum);
+    showTotalStatus(problemNum);
+
+    char searchUser[17] = { 0, };
+    do {
+        printf("검색하고자 하는 이용자의 ID를 입력하세요. 이전 단계로 돌아가시려면 0을 입력하세요\n");
+        printf("ID : ");
+        fgets(searchUser, sizeof(searchUser), stdin);
+        searchUser[strcspn(searchUser, "\n")] = 0;
+        if (strcmp(searchUser, "0") == 0) {
+            printf("이전 단계로 돌아갑니다.\n");
+            break;
+        }
+        else {
+            if (hasSubmissionRecord(problemNum, searchUser) == 0) {
+                printf("이용자를 찾을 수 없습니다.\n");
+            }
+            else {
+                showUserStatus(problemNum, searchUser);
+            }
+        }
+    } while (1);
+}
+
+// 학생 메뉴 처리 함수
+void studentMenu(UserInfo* user) {
+    int StudentMenuReturn;
+    do {
+        StudentMenuReturn = Menu();
+        if (StudentMenuReturn == MENU_LOGOUT) {
+            main();
+            exit(0);
+        }
+        else if (StudentMenuReturn == MENU_USERINFO) {
+            handleUserInfo(user);
+        }
+        else if (StudentMenuReturn > 10 && StudentMenuReturn < 20) {
+            int problemNum = StudentMenuReturn - 10;
+            handleStudentProblem(problemNum, user);
+        }
+        else if (StudentMenuReturn == MENU_EXIT) {
+            printf("Turning Off...\n");
+        }
+        else {
+            printf("Wrong Input!\n");
+        }
+    } while (StudentMenuReturn != MENU_EXIT);
+}
+
+// 관리자 메뉴 처리 함수
+void adminMenu(UserInfo* user) {
+    int adminMenuReturn;
+    do {
+        adminMenuReturn = Menu();
+        if (adminMenuReturn == MENU_LOGOUT) {
+            main();
+            exit(0);
+        }
+        else if (adminMenuReturn == MENU_USERINFO) {
+            handleUserInfo(user);
+        }
+        else if (adminMenuReturn > 10 && adminMenuReturn < 20) {
+            int problemNum = adminMenuReturn - 10;
+            handleAdminProblem(problemNum);
+        }
+        else if (adminMenuReturn == MENU_EXIT) {
+            printf("Turning Off...\n");
+        }
+        else {
+            printf("Wrong Input!\n");
+        }
+    } while (adminMenuReturn != MENU_EXIT);
 }

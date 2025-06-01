@@ -1,6 +1,4 @@
-﻿#pragma once
-
-#ifndef PROBLEM_H
+﻿#ifndef PROBLEM_H
 #define PROBLEM_H
 
 int showProblemInfo(int problemNum);

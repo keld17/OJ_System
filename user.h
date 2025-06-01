@@ -13,4 +13,4 @@ void deleteAccount(UserInfo*);
 int hasSubmissionRecord(int problemNum, char[]);
 
 
-#endif // USER_H
+#endif
