@@ -77,12 +77,30 @@ void changePassword(UserInfo* user) {
     printf("새 비밀번호를 입력하세요: ");
     if (scanf("%16s", newPW) == 1) {
         newPW[sizeof(newPW) - 1] = '\0'; // Null-terminate to ensure safety
+        // 입력 버퍼에 남은 문자가 있으면(16자 이상 입력) 오류 처리
+        int ch, tooLong = 0;
+        while ((ch = getchar()) != '\n' && ch != EOF) {
+            tooLong = 1;
+        }
+        if (tooLong) {
+            printf("오류: 비밀번호는 16자 이하여야 합니다.\n");
+            return;
+        }
     } else {
         newPW[0] = '\0'; // Ensure null-termination in case of input failure
     }
     printf("새 비밀번호를 한 번 더 입력하세요: ");
     if (scanf("%16s", confirmPW) == 1) {
         confirmPW[sizeof(confirmPW) - 1] = '\0'; // Null-terminate to ensure safety
+        // 입력 버퍼에 남은 문자가 있으면(16자 이상 입력) 오류 처리
+        int ch, tooLong = 0;
+        while ((ch = getchar()) != '\n' && ch != EOF) {
+            tooLong = 1;
+        }
+        if (tooLong) {
+            printf("오류: 비밀번호는 16자 이하여야 합니다.\n");
+            return;
+        }
     } else {
         confirmPW[0] = '\0'; // Ensure null-termination in case of input failure
     }

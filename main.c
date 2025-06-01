@@ -47,8 +47,18 @@ int main() {
             }
             else if (StudentMenuReturn > 10 && StudentMenuReturn < 20) {  //문제 목록 보기
                 int problemNum = StudentMenuReturn - 10;    //문제 n번은 10+n입력
-                int ProblemInfoInput;
 
+                // 문제 파일 존재 여부 확인 로직 추가
+                char problemPath[128];
+                snprintf(problemPath, sizeof(problemPath), "data/problems/problem%d/problem%d_vector.txt", problemNum, problemNum);
+                FILE* pf = fopen(problemPath, "r");
+                if (!pf) {
+                    printf("문제 %d에 해당하는 파일이 존재하지 않습니다.\n", problemNum);
+                    continue; // 다음 메뉴로 넘어감
+                }
+                fclose(pf);
+
+                int ProblemInfoInput;
                 do {
                     ProblemInfoInput = showProblemInfo(problemNum); //문제설명 띄우기 // Coding or Status 선택 UI 띄우고 입력받기
                     if (ProblemInfoInput == 1) {    //Coding하기
@@ -123,6 +133,15 @@ int main() {
 
             else if (adminMenuReturn > 10 && adminMenuReturn < 20) {  //문제 목록 보기
                 int problemNum = adminMenuReturn - 10;    //문제 n번은 10+n입력
+                // 문제 파일 존재 여부 확인 로직 추가
+                char problemPath[128];
+                snprintf(problemPath, sizeof(problemPath), "data/problems/problem%d/problem%d_vector.txt", problemNum, problemNum);
+                FILE* pf = fopen(problemPath, "r");
+                if (!pf) {
+                    printf("문제 %d에 해당하는 파일이 존재하지 않습니다.\n", problemNum);
+                    continue; // 다음 메뉴로 넘어감
+                }
+                fclose(pf);
                 calculateAverage();
                 showTotalStatus(problemNum);    //전체 평균점수, 유저당 평균 제출수
                 char searchUser[17] = { 0, };
