@@ -38,7 +38,7 @@ int showProblemInfo(int problemNum) {
 }
 
 void submit(int problemNum, char ID[], char submissionTime[]) {
-    char old_c_file_path[512], old_txt_file_path[512], timestamp[32];
+    char old_c_file_path[512], old_txt_file_path[512], timestamp[16];
     char file_base[128];
 
     // 시간 문자열 획득
@@ -92,8 +92,8 @@ void submit(int problemNum, char ID[], char submissionTime[]) {
 
     // 93~95행: 새로운 파일명 선언
     char c_file_path[512], txt_file_path[512];
-
-    if (!get_current_time(submissionTime, 32)) {
+    //asdasd
+    if (!get_current_time(submissionTime, 16)) {
         printf("제출 시간 정보를 다시 가져오지 못했습니다.\n");
         return;
     }

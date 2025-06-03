@@ -122,11 +122,7 @@ void calculateAverage(int problemNum) {
         problemNum, problemNum);
 
     // 학생별 최고점수, 제출횟수 집계
-    typedef struct {
-        char id[17];
-        int max_score;
-        int submit_count;
-    } UserStat;
+    
     UserStat users[256];
     int user_cnt = 0;
     int overall_max = -1;

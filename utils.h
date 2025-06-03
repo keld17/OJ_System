@@ -4,6 +4,13 @@
 #include <stdio.h>
 #include <stdbool.h>
 
+
+typedef struct {
+    char id[17];
+    int max_score;
+    int submit_count;
+} UserStat;
+
 typedef enum {
     LOGIN_NONE = 0,
     LOGIN_STUDENT = 1,

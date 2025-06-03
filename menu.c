@@ -116,7 +116,7 @@ void handleStudentProblem(int problemNum, UserInfo* user) {
             break;
         }
         if (ProblemInfoInput == 1) {    // Coding하기
-            char submissionTime[14];
+            char submissionTime[16];
             submit(problemNum, user->ID, submissionTime);
             grade(problemNum, user->ID, submissionTime);
             showUserStatus(problemNum, user->ID);
