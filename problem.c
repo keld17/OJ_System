@@ -50,7 +50,7 @@ void submit(int problemNum, char ID[], char submissionTime[]) {
     // 경로 지정
     char submissions_dir[256];
     snprintf(submissions_dir, sizeof(submissions_dir),
-        "C:/Users/dlekg/source/repos/OJ_System/data/problems/problem%d/submissions", problemNum);
+        "data/problems/problem%d/submissions", problemNum);
 
     // 파일 이름 구성 (경로 포함)
     snprintf(file_base, sizeof(file_base), "%s_%s", ID, timestamp);
@@ -77,7 +77,7 @@ void submit(int problemNum, char ID[], char submissionTime[]) {
         return;
     }
 
-    printf("소스코드를 입력하세요. (종료: Ctrl+D 또는 Ctrl+Z)\n");
+    printf("소스코드를 입력하세요. (종료:Ctrl+Z 입력 후 Enter)\n");
 
     char buffer[1024];
     while (fgets(buffer, sizeof(buffer), stdin)) {
@@ -92,7 +92,6 @@ void submit(int problemNum, char ID[], char submissionTime[]) {
 
     // 93~95행: 새로운 파일명 선언
     char c_file_path[512], txt_file_path[512];
-    //asdasd
     if (!get_current_time(submissionTime, 16)) {
         printf("제출 시간 정보를 다시 가져오지 못했습니다.\n");
         return;
@@ -113,7 +112,7 @@ void grade(int problemNum, char ID[], char submissionTime[]) {
     char file_base[128], c_file_path[512], result_path[512];
     char submissions_dir[256];
     snprintf(submissions_dir, sizeof(submissions_dir),
-        "C:/Users/dlekg/source/repos/OJ_System/data/problems/problem%d/submissions", problemNum);
+        "data/problems/problem%d/submissions", problemNum);
     snprintf(file_base, sizeof(file_base), "%s_%s", ID, submissionTime);
     snprintf(c_file_path, sizeof(c_file_path), "%s/%s.c", submissions_dir, file_base);
 

@@ -236,7 +236,7 @@ void deleteAccount(UserInfo* user) {
 int hasSubmissionRecord(int problemNum, char userID[]) {
     char log_path[256];
     snprintf(log_path, sizeof(log_path),
-        "C:/Users/dlekg/source/repos/OJ_System/data/problems/problem%d/problem%d_log.txt",
+        "data/problems/problem%d/problem%d_log.txt",
         problemNum, problemNum);
 
     FILE* fp = fopen(log_path, "r");

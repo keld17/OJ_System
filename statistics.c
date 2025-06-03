@@ -44,7 +44,7 @@ int showUserStatus(int problemNum, char ID[]) {
     if (found && max_score >= 0) {
         char submissions_dir[256];
         snprintf(submissions_dir, sizeof(submissions_dir),
-            "C:/Users/dlekg/source/repos/OJ_System/data/problems/problem%d/submissions", problemNum);
+            "data/problems/problem%d/submissions", problemNum);
         char c_file_path[512];
         snprintf(c_file_path, sizeof(c_file_path), "%s/%s_%s.c", submissions_dir, ID, max_time);
 
@@ -89,7 +89,7 @@ int showUserStatus(int problemNum, char ID[]) {
 void showTotalStatus(int problemNum) {
     char stat_path[256];
     snprintf(stat_path, sizeof(stat_path),
-        "C:/Users/dlekg/source/repos/OJ_System/data/problems/problem%d/problem%d_statistics.txt",
+        "data/problems/problem%d/problem%d_statistics.txt",
         problemNum, problemNum);
 
     FILE* fp = fopen(stat_path, "r");
@@ -115,10 +115,10 @@ void showTotalStatus(int problemNum) {
 void calculateAverage(int problemNum) {
     char log_path[256], stat_path[256];
     snprintf(log_path, sizeof(log_path),
-        "C:/Users/dlekg/source/repos/OJ_System/data/problems/problem%d/problem%d_log.txt",
+        "data/problems/problem%d/problem%d_log.txt",
         problemNum, problemNum);
     snprintf(stat_path, sizeof(stat_path),
-        "C:/Users/dlekg/source/repos/OJ_System/data/problems/problem%d/problem%d_statistics.txt",
+        "data/problems/problem%d/problem%d_statistics.txt",
         problemNum, problemNum);
 
     // 학생별 최고점수, 제출횟수 집계
@@ -181,7 +181,7 @@ void calculateAverage(int problemNum) {
 void append_log(int problemNum, const char* ID, int score, const char* submissionTime) {
     char log_path[256];
     snprintf(log_path, sizeof(log_path),
-        "C:/Users/dlekg/source/repos/OJ_System/data/problems/problem%d/problem%d_log.txt",
+        "data/problems/problem%d/problem%d_log.txt",
         problemNum, problemNum);
 
     FILE* fp = fopen(log_path, "a");
